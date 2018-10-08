@@ -16,8 +16,29 @@ from sklearn.preprocessing import StandardScaler
 import csv
 import sys
 import seaborn as sns
+from datetime import datetime
+from datetime import timedelta
 
 
+def plotprices (df):
+    x = [x for x in range(len(oracle_data["close"]))]
+    plt.title('Oracle Stock 2013 - 2018')
+    plt.xlabel('Day')
+    plt.ylabel('Price')
+    plt.scatter(x, oracle_data["close"],s=.2)
+    plt.scatter(x, oracle_data["Price4y"],s=.2, color = 'magenta')
+
+    results1 = smf.ols('close ~ days', data=df).fit()
+    plt.scatter(x, results1.fittedvalues,s=.2,color = 'red')
+    modelRidge = Ridge(alpha=.5)
+    print(df['days'].shape)
+    a1 = df[['days','volume','open']].values
+    #a1.shape = (len(a1),1)
+    print(a1.shape)
+    #modelRidge.fit(a1, df['close'])
+    modelRidge.fit(a1, df['Price4y'])
+    plt.scatter(x, modelRidge.predict(a1),s=.2,color = 'green')
+    plt.show()
 class XyScaler(BaseEstimator, TransformerMixin):
     """Standardize a training set of data along with a vector of targets.  """
 
@@ -40,7 +61,7 @@ def ResidualPlot(model):
     plt.scatter(model.fittedvalues, student_resid)
     plt.xlabel('Fitted values of Target')
     plt.ylabel('Studentized Residuals')
-    plt.savefig('ResidualPlot.png')
+    plt.savefig('images/ResidualPlot.png')
 class er(BaseEstimator, TransformerMixin):
     """Standardize a training set of data along with a vector of targets.  """
 
@@ -59,6 +80,25 @@ class er(BaseEstimator, TransformerMixin):
         return (self.X_scaler.transform(X),
                 self.y_scaler.transform(y.reshape(-1, 1)).flatten())
 
+def futureprice(df,currentday, numberofdaysinfuture):
+    #return(df.loc[df['days'] == 50].close)
+    if(df[df['days'] == currentday+numberofdaysinfuture].empty):
+        return (0)
+    else:
+        return(df[df['days'] == currentday+numberofdaysinfuture]['close'].values[0])
+def futureprice(df,currentday, numberofdaysinfuture):
+    #return(df.loc[df['days'] == 50].close)
+    if(df[df['days'] == currentday+numberofdaysinfuture].empty):
+        return (0)
+    else:
+        return(df[df['days'] == currentday+numberofdaysinfuture]['close'].values[0])
+def getMonday(a,b):
+    return(a + timedelta(days=-b+1))
+def getFutureMonday(a,b):
+    date1 = a + timedelta(days=b)
+    date1 = date1 - timedelta(days=(date1.isoweekday()+1))
+    return(date1)
+
 def get_clean_data(file_name):
     df = pd.read_csv(file_name)
     print(df.head())
@@ -66,14 +106,21 @@ def get_clean_data(file_name):
     df['datetime']  =  pd.to_datetime(df['date'], format="%Y/%m/%d")
     df['volume'] = df['volume'].astype(float)
     df['days']  =  [float(days_between(x, df.date.min())) for x in df['date']]
-    # df['Price1y']  =  [futureprice(df,x, 365) for x in df['days']]
-    # df['Price4y']  =  [futureprice(df,x, 4*365) for x in df['days']]
+    df['dayOfWeek'] = [x.isoweekday() for x in df['datetime']]
+    df['MondayDate'] = [getMonday(a,b) for a,b in zip(df["datetime"], df["dayOfWeek"])]
+    df['FutureMonday'] = [getFutureMonday(a,365*4) for a in df["MondayDate"]]
+
+    df['Price4y']  =  [futureprice(df,x, 4*365) for x in df['days']]
+    df['fuguremean']  =  [futureprice(df,x, 4*365) for x in df['days']]
+    df.sort_values(['datetime'], inplace = True)
     print(df.head())
+    # df2 = df[df['dayOfWeek']==1]
+    # print(df2.head())
     pd.plotting.scatter_matrix(df,figsize=(10, 8))
-    plt.savefig("scatter_matrix.png")
+    plt.savefig("images/scatter_matrix.png")
 
     msno.matrix(df)
-    plt.savefig('f3.png')
+    plt.savefig('images/f3.png')
     temp = pd.DataFrame(df.isna().sum())
 
     temp.to_csv('nulls.csv', sep='\t', encoding='utf-8')
@@ -83,9 +130,9 @@ def get_clean_data(file_name):
     # one record had missing data multiple fields in one row ass
     df = df.fillna(df.mean())
     msno.matrix(df)
-    plt.savefig('f4.png')
-    sns.pairplot(df1)
-    plt.savefig('pairplot.png')
+    plt.savefig('images/f4.png')
+    sns.pairplot(df)
+    plt.savefig('images/pairplot.png')
     return(df)
 
 
@@ -96,7 +143,7 @@ def days_between(d1, d2):
     d1 = datetime.strptime(d1, "%Y/%m/%d")
     d2 = datetime.strptime(d2, "%Y/%m/%d")
     return abs((d2 - d1).days)
-from datetime import datetime
+
 
 
 
@@ -203,7 +250,7 @@ def get_optimal_alpha(mean_cv_errors_test):
 
 if __name__ == '__main__':
     df = get_clean_data('data/HistoricalQuotes.csv')
-
+    sys.exit()
 
     HIV_train, HIV_test = train_test_split(df, test_size=.3)
     HIV_train = HIV_train.copy()
@@ -216,7 +263,7 @@ if __name__ == '__main__':
     print(y_train.head())
     print(X_train.head())
 
-    #sys.exit()
+
     ridge = Ridge(alpha=0.5)
     ridge.fit(X_train, y_train)
     #not working  writeModelSummary('ridge1.txt',ridge)
@@ -250,7 +297,7 @@ if __name__ == '__main__':
     ax.set_title("Ridge Regression Train and Test MSE")
     ax.set_xlabel(r"$\log(\alpha)$")
     ax.set_ylabel("MSE")
-    fig.savefig('f2.png')
+    fig.savefig('images/f2.png')
 
     ridge_models = []
 
@@ -278,4 +325,4 @@ if __name__ == '__main__':
     ax.set_title("Ridge Regression, Standardized Coefficient Paths")
     ax.set_xlabel(r"$\log(\alpha)$")
     ax.set_ylabel("Standardized Coefficient")
-    fig.savefig('f1.png')
+    fig.savefig('images/f1.png')
