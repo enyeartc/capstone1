@@ -39,6 +39,7 @@ Initially data looks like the following, but this is only really good if we are 
 If you notice there might not be any data for the exact day 4 years out, so what we really want is the mean price for the week 4 years in advance compared to the mean price/volume/high/low 
 
 ### Eventually predict with this data
+![image info](images/ss4.png)
 ![image info](images/ss3.png)
 
 ### Eventually predict with this data
