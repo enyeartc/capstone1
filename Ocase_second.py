@@ -19,26 +19,87 @@ import seaborn as sns
 from datetime import datetime
 from datetime import timedelta
 
+import statsmodels.formula.api as smf
+import statsmodels.tsa.api as smt
+import statsmodels.api as sm
+import scipy.stats as scs
+
+
+
+daysinfuture = 365*4
+
+def tsplot(y, lags=None, figsize=(10, 8), style='bmh'):
+    if not isinstance(y, pd.Series):
+        y = pd.Series(y)
+    with plt.style.context(style):
+        fig = plt.figure(figsize=figsize)
+        #mpl.rcParams['font.family'] = 'Ubuntu Mono'
+        layout = (3, 2)
+        ts_ax = plt.subplot2grid(layout, (0, 0), colspan=2)
+        acf_ax = plt.subplot2grid(layout, (1, 0))
+        pacf_ax = plt.subplot2grid(layout, (1, 1))
+        qq_ax = plt.subplot2grid(layout, (2, 0))
+        pp_ax = plt.subplot2grid(layout, (2, 1))
+
+        y.plot(ax=ts_ax)
+        ts_ax.set_title('Time Series Analysis Plots')
+        smt.graphics.plot_acf(y, lags=lags, ax=acf_ax, alpha=0.5)
+        smt.graphics.plot_pacf(y, lags=lags, ax=pacf_ax, alpha=0.5)
+        sm.qqplot(y, line='s', ax=qq_ax)
+        qq_ax.set_title('QQ Plot')
+        scs.probplot(y, sparams=(y.mean(), y.std()), plot=pp_ax)
+
+        plt.tight_layout()
+        plt.show()
+    return
+def ttttt(df):
+    dfdate = df
+    dfdate.reset_index(inplace=True)
+    df = df.set_index('date')
+    s=sm.tsa.seasonal_decompose(df.divida)
 
 def plotprices (df):
-    x = [x for x in range(len(oracle_data["close"]))]
-    plt.title('Oracle Stock 2013 - 2018')
-    plt.xlabel('Day')
+    x = [x for x in range(len(df["close"]))]
+    plt.figure(figsize=(10, 8))
+    plt.title('Oracle Stock 2009 - 2014')
+    plt.xlabel('Week')
     plt.ylabel('Price')
-    plt.scatter(x, oracle_data["close"],s=.2)
-    plt.scatter(x, oracle_data["Price4y"],s=.2, color = 'magenta')
+    plt.scatter(x, df["mean_close"],s=1, label='weekly mean')
+    plt.scatter(x, df["future_mean_close"],s=1, marker="^", color = 'magenta', label='future mean')
+    plt.scatter(x, df["ma_2"], marker=5,s=1, color = 'red', label='moving average')
 
-    results1 = smf.ols('close ~ days', data=df).fit()
-    plt.scatter(x, results1.fittedvalues,s=.2,color = 'red')
-    modelRidge = Ridge(alpha=.5)
-    print(df['days'].shape)
-    a1 = df[['days','volume','open']].values
-    #a1.shape = (len(a1),1)
-    print(a1.shape)
-    #modelRidge.fit(a1, df['close'])
-    modelRidge.fit(a1, df['Price4y'])
-    plt.scatter(x, modelRidge.predict(a1),s=.2,color = 'green')
+    #results1 = smf.ols('future_mean_close ~ mean_close + mean_volume + ma_2', data=df).fit()
+    #results1 = smf.ols('future_mean_close ~ mean_close', data=df).fit()
+    #print(results1.summary())
+    #X_prime = np.linspace(0,  len(df["mean_close"]))
+
+
+    y = df['future_mean_close']
+    print("y", y.shape)
+    x1 = df[['mean_close']].astype(float)
+    #x1['const'] = 1
+    x2=sm.add_constant(x1)
+    print("x2", x2.shape)
+    olsmodel = sm.OLS(endog=y, exog=x2).fit()
+    print(olsmodel.params)
+    print(olsmodel.summary())
+    y_hat = olsmodel.predict(x2)
+    print("y_hat", y_hat.shape)
+    plt.plot(x1, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
+    plt.plot(x, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
+    #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
+
+    plt.legend()
     plt.show()
+    # modelRidge = Ridge(alpha=.5)
+    # print(df['days'].shape)
+    # a1 = df[['days','volume','open']].values
+    # #a1.shape = (len(a1),1)
+    # print(a1.shape)
+    # #modelRidge.fit(a1, df['close'])
+    # modelRidge.fit(a1, df['Price4y'])
+    # plt.scatter(x, modelRidge.predict(a1),s=.2,color = 'green')
+
 class XyScaler(BaseEstimator, TransformerMixin):
     """Standardize a training set of data along with a vector of targets.  """
 
@@ -96,32 +157,82 @@ def getMonday(a,b):
     return(a + timedelta(days=-b+1))
 def getFutureMonday(a,b):
     date1 = a + timedelta(days=b)
-    date1 = date1 - timedelta(days=(date1.isoweekday()+1))
+    date1 = date1 + timedelta(days=(-date1.isoweekday()+1))
     return(date1)
+def weeklyMean(date,df):
+    df1 = df[df['MondayDate']==date]
+    return(df1['close'].mean())
+def weeklyVolume(date,df):
+    df1 = df[df['MondayDate']==date]
+    return(df1['volume'].mean())
+def month_average(date,df):
+
+    # Not working
+    x = df.loc[df['MondayDate']== date].index[0]
+    # x = df.index[df['MondayDate']== date]
+    if x < 4:
+        return(NaN)
+    else:
+        return((df.iloc[x]+df.iloc[x-1]+df.iloc[x-2]+df.iloc[x-3])/4)
+
 
 def get_clean_data(file_name):
     df = pd.read_csv(file_name)
     print(df.head())
     df = df.drop(0)
     df['datetime']  =  pd.to_datetime(df['date'], format="%Y/%m/%d")
+    df.sort_values(['datetime'], inplace = True)
     df['volume'] = df['volume'].astype(float)
     df['days']  =  [float(days_between(x, df.date.min())) for x in df['date']]
     df['dayOfWeek'] = [x.isoweekday() for x in df['datetime']]
     df['MondayDate'] = [getMonday(a,b) for a,b in zip(df["datetime"], df["dayOfWeek"])]
-    df['FutureMonday'] = [getFutureMonday(a,365*4) for a in df["MondayDate"]]
+    df['FutureMonday'] = [getFutureMonday(a,daysinfuture) for a in df["MondayDate"]]
+    df['Price4y']  =  [futureprice(df,x, daysinfuture) for x in df['days']]
+    df = df.replace(0, np.NaN)
+    df['mean_close']  =  [weeklyMean(x,df) for x in df['MondayDate']]
+    df['mean_volume']  =  [weeklyVolume(x,df) for x in df['MondayDate']]
+    df['future_mean_close']  =  [weeklyMean(x,df) for x in df['FutureMonday']]
+    df['future_mean_volume']  =  [weeklyVolume(x,df) for x in df['FutureMonday']]
 
-    df['Price4y']  =  [futureprice(df,x, 4*365) for x in df['days']]
-    df['fuguremean']  =  [futureprice(df,x, 4*365) for x in df['days']]
-    df.sort_values(['datetime'], inplace = True)
-    print(df.head())
+    df.to_csv('data/clean.csv')
+
+    # At this point we have created a dataframe with every day and every column_names
+    # Now colapse and remove data with nulls
+    msno.matrix(df)
+    plt.savefig('images/msnoAllRows.png')
+    #temp = pd.DataFrame(df.isna().sum())
+    df1 = df[df['dayOfWeek']==1]
+
+    df1['ma_1'] = df1['mean_close'].rolling(4).mean()
+    df1['ma_2'] = df1['mean_close'].rolling(16).mean()
+    #df['ma_2'] = df.rolling(4).mean()['close']
+
+    df1.drop(['open', 'high', 'Price4y'], inplace=True, axis=1)
+
+
+    df1 = df1[df1['future_mean_close']>0 ]
+    df1 = df1[df1['ma_2']>0 ]
+    df1['fv_options'] = (df1['future_mean_close']-df1['mean_close'])*1000
+    df1['fv_rsu'] = df1['mean_close']*250
+    df1['diff'] = df1['fv_options']- df1['fv_rsu']
+    df1['Options'] = [greaterthanzero(x) for x in df1['diff']]
+
+    print(df1.shape)
+    df1.to_csv('data/clean_small2.csv')
+    msno.matrix(df1)
+    plt.savefig('images/msnoSubset.png')
+
+    return(df1)
+
+def plotData(df):
+
+
     # df2 = df[df['dayOfWeek']==1]
     # print(df2.head())
     pd.plotting.scatter_matrix(df,figsize=(10, 8))
     plt.savefig("images/scatter_matrix.png")
 
-    msno.matrix(df)
-    plt.savefig('images/f3.png')
-    temp = pd.DataFrame(df.isna().sum())
+
 
     temp.to_csv('nulls.csv', sep='\t', encoding='utf-8')
     #print(df.isna().sum())
@@ -246,10 +357,23 @@ def get_optimal_alpha(mean_cv_errors_test):
     optimal_idx = np.argmin(mean_cv_errors_test.values)
     optimal_alpha = alphas[optimal_idx]
     return optimal_alpha
-
+def greaterthanzero(x):
+    if x > 0 :
+        return(True)
+    else:
+        return(False)
 
 if __name__ == '__main__':
-    df = get_clean_data('data/HistoricalQuotes.csv')
+    #df = get_clean_data('data/OracleQuotes.csv')
+    #print(df.head())
+
+    df = pd.read_csv('data/clean_small2.csv')
+    #print(df.describe())
+
+    #plotData(df)
+
+    plotprices(df)
+    tsplot(df.future_mean_close)
     sys.exit()
 
     HIV_train, HIV_test = train_test_split(df, test_size=.3)
