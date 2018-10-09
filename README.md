@@ -39,5 +39,10 @@ If you notice there might not be any data for the exact day 4 years out, so what
 
 
 
-
+![image info](images/f1.png)
+![image info](images/f2.png)
 ![image info](images/f3.png)
+![image info](images/f4.png)
+![image info](images/msno.png)
+![image info](images/msnoAllRows.png)
+![image info](images/msnoSubset.png)
