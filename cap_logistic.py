@@ -78,10 +78,12 @@ if __name__ == '__main__':
     y_df = pd.DataFrame(df['Options'])
     y = df['Options']
 
-    X = df[['mean_close','ma_2','mean_volume']]
+    #X = df[['mean_close','ma_2','mean_volume']]
+    #X = df[['ma1_mean','ma2_mean','mean_volume']]
+    X = df[['ma2_mean']]
 
-    X['mean_log_vol'] = np.log(df['mean_volume'])
-    X.drop('mean_volume', inplace=True, axis=1)
+    #X['mean_log_vol'] = np.log(df['mean_volume'])
+    #X.drop('mean_volume', inplace=True, axis=1)
     #pd.plotting.scatter_matrix(X,figsize=(10, 8))
     #plt.savefig("images/scatter_matrix2.png")
     print(X.head())
@@ -93,12 +95,13 @@ if __name__ == '__main__':
 
     log_model = LogisticRegression()
 
-    # LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
-    #       intercept_scaling=1, max_iter=100, multi_class='warn',
-    #       n_jobs=None, penalty='l2', random_state=None, solver='warn',
-    #       tol=0.0001, verbose=0, warm_start=False)
+    LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='warn',
+          n_jobs=None, penalty='l2', random_state=None, solver='warn',
+          tol=0.0001, verbose=0, warm_start=False)
 
     y_pred = log_model.fit(X,y).predict(X)
+    y_proba = log_model.predict_proba(X)
     print('y sum',sum(y))
     print('y_pred sum',sum(y_pred))
     y_true = y
@@ -109,8 +112,8 @@ if __name__ == '__main__':
     print("| TN | FP |\n| FN | TP |\n")
     print(cnf_matrix)
 
-    print(log_model.intercept_)
-    print(log_model.coef_)
+    print("intercept",log_model.intercept_)
+    print("coef",log_model.coef_)
 
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111)
@@ -118,3 +121,6 @@ if __name__ == '__main__':
     class_names = ["RSU","Options"]
     plot_confusion_matrix(cnf_matrix, ax, classes=class_names,
                            title='Confusion matrix, without normalization')
+
+    for x in (zip(y_pred,y_proba)):
+        print(x)

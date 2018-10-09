@@ -52,8 +52,32 @@ def tsplot(y, lags=None, figsize=(10, 8), style='bmh'):
         scs.probplot(y, sparams=(y.mean(), y.std()), plot=pp_ax)
 
         plt.tight_layout()
-        fig.savefig('images/QQ.png')
+        plt.savefig('images/QQ.png')
     return
+def plotpricesSimple (df):
+    x = [x for x in range(len(df["mean_close"]))]
+    plt.figure(figsize=(10, 8))
+    plt.title('Oracle Stock 2009 - 2014')
+    plt.xlabel('Week')
+    plt.ylabel('Price')
+    plt.scatter(x, df["mean_close"],s=1, label='weekly_mean')
+    plt.scatter(x, df["future_mean_close"],s=1, marker="^", color = 'magenta', label='future mean')
+    plt.scatter(x, df["ma_2"], marker=5,s=1, color = 'red', label='moving average')
+    plt.legend()
+    print("Save to ", 'images/pricess.png')
+    plt.savefig('images/pricess.png')
+    # y = df['future_mean_close']
+    # print("y", y.shape)
+    # x1 = df[['ma_2']].astype(float)
+    #
+    # x2=sm.add_constant(x1)
+    # print("x2", x2.shape)
+    # olsmodel = sm.OLS(endog=y, exog=x2).fit()
+    # print(olsmodel.params)
+    # print(olsmodel.summary())
+    # y_hat = olsmodel.predict(x2)
+    # print("y_hat", y_hat.shape)
+    # plt.plot(x, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
 
 def plotprices (df):
     x = [x for x in range(len(df["close"]))]
@@ -87,7 +111,7 @@ def plotprices (df):
     #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
 
     plt.legend()
-    fig.savefig('images/prices.png')
+    plt.savefig('images/prices.png')
 def plotxy (df):
 
     plt.figure(figsize=(10, 8))
@@ -107,18 +131,28 @@ def plotxy (df):
     #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
 
     plt.legend()
-    fig.savefig('images/xy.png')
-    student_resid = olsmodel.outlier_test()['student_resid']
-    sm.graphics.qqplot(student_resid, line='45', fit=True)
-    fig.savefig('images/QQ2.png')
-    # modelRidge = Ridge(alpha=.5)
-    # print(df['days'].shape)
-    # a1 = df[['days','volume','open']].values
-    # #a1.shape = (len(a1),1)
-    # print(a1.shape)
-    # #modelRidge.fit(a1, df['close'])
-    # modelRidge.fit(a1, df['Price4y'])
-    # plt.scatter(x, modelRidge.predict(a1),s=.2,color = 'green')
+    plt.savefig('images/xy.png')
+def plotMA (df):
+
+    plt.figure(figsize=(10, 8))
+    plt.title('Oracle Stock 2009 - 2014')
+    plt.xlabel('ma_2')
+    plt.ylabel('future_mean_close')
+    #results1 = smf.ols('future_mean_close ~ mean_close + mean_volume + ma_2', data=df).fit()
+    plt.scatter(df["ma_2"],df["future_mean_close"],s=1, label='future close')
+
+    y = df['future_mean_close']
+    x1 = df[['ma_2']].astype(float)
+    x2=sm.add_constant(x1)
+    olsmodel = sm.OLS(endog=y, exog=x2).fit()
+    y_hat = olsmodel.predict(x2)
+    plt.plot(x1, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
+
+    #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
+
+    plt.legend()
+    plt.savefig('images/ma_2.png')
+
 
 class XyScaler(BaseEstimator, TransformerMixin):
     """Standardize a training set of data along with a vector of targets.  """
@@ -394,7 +428,9 @@ if __name__ == '__main__':
 
     plotData(df)
     plotxy(df)
+    plotMA(df)
     plotprices(df)
+    plotpricesSimple(df)
     tsplot(df.future_mean_close)
     sys.exit()
 
@@ -443,7 +479,7 @@ if __name__ == '__main__':
     ax.set_title("Ridge Regression Train and Test MSE")
     ax.set_xlabel(r"$\log(\alpha)$")
     ax.set_ylabel("MSE")
-    fig.savefig('images/f2.png')
+    plt.savefig('images/f2.png')
 
     ridge_models = []
 
@@ -471,4 +507,4 @@ if __name__ == '__main__':
     ax.set_title("Ridge Regression, Standardized Coefficient Paths")
     ax.set_xlabel(r"$\log(\alpha)$")
     ax.set_ylabel("Standardized Coefficient")
-    fig.savefig('images/f1.png')
+    plt.savefig('images/f1.png')
