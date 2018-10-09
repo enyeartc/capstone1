@@ -79,7 +79,8 @@ if __name__ == '__main__':
     y = df['Options']
 
     X = df[['mean_close','ma_2','mean_volume']]
-    X['mean_log'] = np.log(df['mean_volume'])
+
+    X['mean_log_vol'] = np.log(df['mean_volume'])
     X.drop('mean_volume', inplace=True, axis=1)
     #pd.plotting.scatter_matrix(X,figsize=(10, 8))
     #plt.savefig("images/scatter_matrix2.png")

@@ -52,7 +52,7 @@ def tsplot(y, lags=None, figsize=(10, 8), style='bmh'):
         scs.probplot(y, sparams=(y.mean(), y.std()), plot=pp_ax)
 
         plt.tight_layout()
-        plt.show()
+        fig.savefig('images/QQ.png')
     return
 
 def plotprices (df):
@@ -87,7 +87,7 @@ def plotprices (df):
     #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
 
     plt.legend()
-    plt.show()
+    fig.savefig('images/prices.png')
 def plotxy (df):
 
     plt.figure(figsize=(10, 8))
@@ -107,10 +107,10 @@ def plotxy (df):
     #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
 
     plt.legend()
-    plt.show()
+    fig.savefig('images/xy.png')
     student_resid = olsmodel.outlier_test()['student_resid']
     sm.graphics.qqplot(student_resid, line='45', fit=True)
-    plt.show()
+    fig.savefig('images/QQ2.png')
     # modelRidge = Ridge(alpha=.5)
     # print(df['days'].shape)
     # a1 = df[['days','volume','open']].values
