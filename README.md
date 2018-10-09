@@ -24,6 +24,11 @@ Initially data looks like the following, but this is only really good if we are 
 ### Added quit a few calculaitons
 ![image info](images/ss1.png)
 ![image info](images/msnoAllRows.png)
+![image info](images/ma_2.png)
+![image info](images/pricess.png)
+![image info](images/pplotROC_Save.png)
+![image info](images/pplotROC2.png)
+
 
 ### Scrubbed Data collapsed to weekly
 
