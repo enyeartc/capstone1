@@ -29,6 +29,8 @@ import scipy.stats as scs
 daysinfuture = 365*4
 
 def tsplot(y, lags=None, figsize=(10, 8), style='bmh'):
+    # code from http://www.blackarbs.com/blog/time-series-analysis-in-python-linear-models-to-garch/11/1/2016
+
     if not isinstance(y, pd.Series):
         y = pd.Series(y)
     with plt.style.context(style):
@@ -52,11 +54,6 @@ def tsplot(y, lags=None, figsize=(10, 8), style='bmh'):
         plt.tight_layout()
         plt.show()
     return
-def ttttt(df):
-    dfdate = df
-    dfdate.reset_index(inplace=True)
-    df = df.set_index('date')
-    s=sm.tsa.seasonal_decompose(df.divida)
 
 def plotprices (df):
     x = [x for x in range(len(df["close"]))]
@@ -85,11 +82,34 @@ def plotprices (df):
     print(olsmodel.summary())
     y_hat = olsmodel.predict(x2)
     print("y_hat", y_hat.shape)
-    plt.plot(x1, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
+    #plt.plot(x1, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
     plt.plot(x, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
     #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
 
     plt.legend()
+    plt.show()
+def plotxy (df):
+
+    plt.figure(figsize=(10, 8))
+    plt.title('Oracle Stock 2009 - 2014')
+    plt.xlabel('mean_close')
+    plt.ylabel('future_mean_close')
+    #results1 = smf.ols('future_mean_close ~ mean_close + mean_volume + ma_2', data=df).fit()
+    plt.scatter(df["mean_close"],df["future_mean_close"],s=1, label='future close')
+
+    y = df['future_mean_close']
+    x1 = df[['mean_close']].astype(float)
+    x2=sm.add_constant(x1)
+    olsmodel = sm.OLS(endog=y, exog=x2).fit()
+    y_hat = olsmodel.predict(x2)
+    plt.plot(x1, y_hat, color = 'green', alpha=0.9,label='OLS Prediction')
+
+    #plt.scatter(x, results1.fittedvalues,s=2,color = 'green', label='OLS Prediction')
+
+    plt.legend()
+    plt.show()
+    student_resid = olsmodel.outlier_test()['student_resid']
+    sm.graphics.qqplot(student_resid, line='45', fit=True)
     plt.show()
     # modelRidge = Ridge(alpha=.5)
     # print(df['days'].shape)
@@ -207,7 +227,7 @@ def get_clean_data(file_name):
     df1['ma_2'] = df1['mean_close'].rolling(16).mean()
     #df['ma_2'] = df.rolling(4).mean()['close']
 
-    df1.drop(['open', 'high', 'Price4y'], inplace=True, axis=1)
+    df1.drop(['open', 'high', 'Price4y','low','days','dayOfWeek','date','datetime','volume','close'], inplace=True, axis=1)
 
 
     df1 = df1[df1['future_mean_close']>0 ]
@@ -215,6 +235,8 @@ def get_clean_data(file_name):
     df1['fv_options'] = (df1['future_mean_close']-df1['mean_close'])*1000
     df1['fv_rsu'] = df1['mean_close']*250
     df1['diff'] = df1['fv_options']- df1['fv_rsu']
+    df1['ma2_mean'] = df1['ma_2']- df1['mean_close']
+    df1['ma1_mean'] = df1['ma_1']- df1['mean_close']
     df1['Options'] = [greaterthanzero(x) for x in df1['diff']]
 
     print(df1.shape)
@@ -234,7 +256,7 @@ def plotData(df):
 
 
 
-    temp.to_csv('nulls.csv', sep='\t', encoding='utf-8')
+    #temp.to_csv('nulls.csv', sep='\t', encoding='utf-8')
     #print(df.isna().sum())
     # one record had missing data multiple fields in one row ass
 
@@ -359,19 +381,19 @@ def get_optimal_alpha(mean_cv_errors_test):
     return optimal_alpha
 def greaterthanzero(x):
     if x > 0 :
-        return(True)
+        return(1)
     else:
-        return(False)
+        return(0)
 
 if __name__ == '__main__':
-    #df = get_clean_data('data/OracleQuotes.csv')
-    #print(df.head())
+    df = get_clean_data('data/OracleQuotes.csv')
+    print(df.head())
 
     df = pd.read_csv('data/clean_small2.csv')
     #print(df.describe())
 
-    #plotData(df)
-
+    plotData(df)
+    plotxy(df)
     plotprices(df)
     tsplot(df.future_mean_close)
     sys.exit()
