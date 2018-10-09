@@ -18,16 +18,10 @@ Although there are three choices, this project will only see if an employee shou
 ## Data   
 Initially data looks like the following, but this is only really good if we are predicting data for tomorrow. 
 ### Initial Data
-         date  close         volume   open    high    low
-0       9:52   50.85      2,443,215  50.81  51.020  50.71
 
-1  2018/09/21  51.10  50519700.0000  50.83  51.120  50.35
-
-2  2018/09/20  50.43  26973330.0000  49.66  51.075  49.56
-
-3  2018/09/19  49.43  20904240.0000  48.92  49.540  48.66
-
-4  2018/09/18  49.03  33448720.0000  47.51  49.540  47.36
+![image info](images/ss1.png)
+![image info](images/ss2.png)
+![image info](images/ss3.png)
 
 ### Scrubbed Data with future values
 If you notice there might not be any data for the exact day 4 years out, so what we really want is the mean price for the week 4 years in advance compared to the mean price/volume/high/low 
