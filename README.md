@@ -27,7 +27,7 @@ Initially data looks like the following, but this is only really good if we are 
 ![image info](images/ma_2.png)
 ![image info](images/pricess.png)
 ![image info](images/plotROC_Save.png)
-![image info](images/plotROC2.png)
+![image info](images/plotROCS2.png)
 
 
 ### Scrubbed Data collapsed to weekly
