@@ -26,6 +26,14 @@ Initially data looks like the following, but this is only really good if we are 
 4  2018/09/18  49.03  33448720.0000  47.51  49.540  47.36
 
 ### Scrubbed Data with future values
+If you notice there might not be any data for the exact day 4 years out, so what we really want is the mean price for the week 4 years in advance compared to the mean price/volume/high/low 
+
+            date  close         volume   open   high      low   datetime  days  Price1y  Price4y
+1260  2013/09/23  33.94  26293060.0000  33.80  34.34  33.7500 2013-09-23     0    38.83    48.16
+1259  2013/09/24  33.64  18715350.0000  33.83  33.89  33.5900 2013-09-24     1    39.42     0.00
+1258  2013/09/25  33.87  19599480.0000  33.76  34.09  33.7000 2013-09-25     2    38.76     0.00
+1257  2013/09/26  33.81  15620990.0000  33.98  34.26  33.6900 2013-09-26     3    38.95    47.97
+1256  2013/09/27  33.78  14068670.0000  33.63  33.95  33.5101 2013-09-27     4     0.00    47.92
 
 ### Scrubbed Data collapsed to weekly
 
