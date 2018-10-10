@@ -25,10 +25,9 @@ If you notice there might not be any data for the exact day 4 years out due to w
 ![image info](images/pricess.png)
 
 In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.  For example if an employee picks 1000 options and the price is $30 when granted, and the price in 4 years is $35 then the differnce is $5 * 1000, for $5,000 total.   For the RSU's the price is simply $35 * 250 or $8750, in this case the value would be 0 for RSU's.  
-In the first line below the stock moved from 17.3 to 34.985  a difference of 17.685 or $17,685 but for RSU's it would be 34.985 * 250 or $8746.25, since th options are much greater this is a 1.
+In the first line below the stock moved from 17.3 to 34.985  a difference of 17.685 or $17,685 but for RSU's it would be 34.985 * 250 or $8746.25, since th options are much greater this is a 1.  Also interesting was the moving average calculation, this involved calculating a 'rolling' average across the previous rows.
 
 ![image info](images/S2_data2.png)
-
 
 Visualized below are NaN values. Notice data at the end for 4 years that would need to removed since it takes 4 years to fully vest, the zebra pattern in middle column is becasue of weekends and holidays this will be removed when compressed to weekly mean prices.
 ![image info](images/msnoAllRows.png)
@@ -36,12 +35,15 @@ After collapsing the data, data is clean and ready to model
 
 ![image info](images/msnoSubset.png)
 
-The total rows was 270 weeks of data to analize.  Of this data the choice of Options was 209 out of the 270 which is 77%.  This makes it more difficult to improve over just picking Options. For example the current data is as follows.
-1    209 Pick Options
-0     61 Pick RSU's
+The total rows was 270 weeks of data to analize.  Of this data the choice of Options was 166 out of the 270 which is 61%.  If you look at row 2 you can see what this model will attempt to capture, we want to predict the Future mean based on the current mean and moving average.  These will be used in the model.
+
+1    166 Pick Options
+0    104 Pick RSU's
 
 ![image info](images/S1pairplot3.png)
 ### Map Moving Average to Future Mean
+You can see below with a OLS (Ordinary Least Squares) line that there is a relationship between the future value of the stock and the current value but it will prove to be very difficult to predict. 
+
 ![image info](images/S1_ma_2toFuture.png)
 
 ## Modeling
@@ -57,7 +59,7 @@ Options  Mean_Close MovingAverage
 I was trying to get the very narrow line between some of the Options and RSU.  This proved very difficult
 ![image info](images/OptionOrNot.png)
 
-Using this model I could plot a ROC curve (Receiver operating characteristic)
+Using this the following ROC (Receiver operating characteristic) is created.
 ![image info](images/plotROC_Training.png)
 
 I ran multiple passes using different thresholds and I ended up using a threshold of 0.6443742. I was using the F1 value of my model to 
