@@ -16,14 +16,34 @@ To accurately create a model that will predict if an employee should choose Opti
 Although there are three choices, this project will only see if an employee should choose options or not,  if they do not choose options they will default to RSU's.  This will involve 
 
 ## Data   
-Initially data looks like the following, but this is only really good if we are predicting data for tomorrow. 
+Initially data looks like the following, this data doesn't help for future predictions at a row by row level. 
 ### Initial Data
+![image info](images/S2_data1.png)
+
+### Scrubbed Data with future values
+If you notice there might not be any data for the exact day 4 years out due to weekends and holidays.  To model this data it needs to manipulated and colapsed.   There is a monthly moving average and a 4 month moving aferage, and now only one record for each week and the stock price is a mean for the seek.  In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.
+
+![image info](images/S2_data2.png)
+
+Below displays missing data. Notice data at the end for 4 years that would need to removed.
+![image info](images/msnoAllRows.png)
+As this was collapsed there are numerious 0 and NaN values. The total Options 209 out of 270.
+![image info](images/S1pairplot3.png)
+![image info](images/S1_ma_2toFuture.png)
+
+### Initial Data
+
+![image info](images/S1ma_2.png)
+![image info](images/S1pairplot3.png)
+![image info](images/S1plotROC.png)
+![image info](images/S2_data1.png)
+![image info](images/S2_data2.png)
 
 
 ![image info](images/ss2.png)
 ### Added quit a few calculaitons
 ![image info](images/ss1.png)
-![image info](images/msnoAllRows.png)
+
 ![image info](images/ma_2.png)
 ![image info](images/pricess.png)
 ![image info](images/plotROC_Save.png)
