@@ -16,24 +16,43 @@ To accurately create a model that will predict if an employee should choose Opti
 Although there are three choices, this project will only see if an employee should choose options or not,  if they do not choose options they will default to RSU's.  This will involve 
 
 ## Data   
-Initially data looks like the following, but this is only really good if we are predicting data for tomorrow. 
+Initially data looks like the following, this data doesn't help for future predictions at a row by row level. 
 ### Initial Data
+![image info](images/S2_data1.png)
+
+### Scrubbed Data with future values
+If you notice there might not be any data for the exact day 4 years out due to weekends and holidays.  To model this data it needs to manipulated and colapsed.  Need to find the Monday of the week and get the mean for next 7 days etc.   There is a monthly moving average and a 4 month moving aferage, and now only one record for each week and the stock price is a mean for the seek.  In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.
+
+![image info](images/S2_data2.png)
+
+Below displays missing data. Notice data at the end for 4 years that would need to removed.
+![image info](images/msnoAllRows.png)
+As this was collapsed there are numerious 0 and NaN values before moving average started and then at the end.  The missing data in the middle was taken care of by collapsing the data to weekly.
+
+![image info](images/msnoSubset.png)
+
+The total rows was 270 weeks of data to analize.  Of this data the choice of Options was 209 out of the 270 which is 77%.  This makes it more difficult to improve over just picking Options.
+
+![image info](images/S1pairplot3.png)
+![image info](images/S1_ma_2toFuture.png)
+![image info](images/ma_2.png)
+![image info](images/pricess.png)
+
+![image info](images/S1plotROC.png)
+![image info](images/plotROC_Save.png)
+![image info](images/plotROCS2.png)
 
 
 ![image info](images/ss2.png)
-### Added quit a few calculaitons
-![image info](images/ss1.png)
-![image info](images/msnoAllRows.png)
-![image info](images/ma_2.png)
-![image info](images/pricess.png)
-![image info](images/plotROC_Save.png)
-![image info](images/plotROCS2.png)
+
+
+
+
 
 
 ### Scrubbed Data collapsed to weekly
 
 
-![image info](images/msnoSubset.png)
 
 ### Scrubbed Data with future values
 If you notice there might not be any data for the exact day 4 years out, so what we really want is the mean price for the week 4 years in advance compared to the mean price/volume/high/low 
