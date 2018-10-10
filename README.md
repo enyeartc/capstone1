@@ -24,6 +24,8 @@ Initially data looks like the following, this data doesn't help for future predi
 If you notice there might not be any data for the exact day 4 years out due to weekends and holidays.  To model this data it needs to manipulated and colapsed.  Need to find the Monday of the week and get the mean for next 7 days etc.   There is a monthly moving average and a 4 month moving aferage, and now only one record for each week and the stock price is a mean for the seek.  In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.
 
 ![image info](images/S2_data2.png)
+### This is the data we are working with
+![image info](images/pricess.png)
 
 Below displays missing data. Notice data at the end for 4 years that would need to removed.
 ![image info](images/msnoAllRows.png)
@@ -34,11 +36,44 @@ As this was collapsed there are numerious 0 and NaN values before moving average
 The total rows was 270 weeks of data to analize.  Of this data the choice of Options was 209 out of the 270 which is 77%.  This makes it more difficult to improve over just picking Options.
 
 ![image info](images/S1pairplot3.png)
+### Map Moving Average to Future Mean
 ![image info](images/S1_ma_2toFuture.png)
-![image info](images/ma_2.png)
-![image info](images/pricess.png)
 
-![image info](images/S1plotROC.png)
+## Modeling
+I ended up using a logistic regression using the Weekly Mean and the Moving Average for 4 weeks.  So the Options is the y or target and the X values being Mean and Moving Average.  
+Options  Mean_Close MovingAverage
+1        39.1420    36.451875
+1        38.3060    36.725625
+1        38.2960    36.952000
+0        38.8940    37.205250
+0        40.7760    37.561719
+0        39.8720    37.859344
+
+I was trying to get the very narrow line between some of the Options and RSU.  This proved very difficult
+![image info](images/OptionOrNot.png)
+
+Using this model I could plot a ROC curve (Receiver operating characteristic)
+![image info](images/plotROC_Training.png)
+
+I ran multiple passes using different thresholds and I ended up using a threshold of 0.6443742. I was using the F1 value of my model to 
+Accuracy = TP+TN/TP+FP+FN+TN
+Precision = TP/TP+FP
+Recall = TP/TP+FN
+F1 Score = 2*(Recall * Precision) / (Recall + Precision)
+
+**************** ROC Curve Test 1.9425746049638208
+Test accuracy_score 0.8444444444444444
+Test precision_score 0.9
+Test recall_score 0.9
+Test f1_score 0.9
+
+**************** Return All 1's
+accuracy_score 0.7777777777777778
+precision_score 0.7777777777777778
+recall_score 1.0
+f1_score 0.8750000000000001
+
+
 ![image info](images/plotROC_Save.png)
 ![image info](images/plotROCS2.png)
 
