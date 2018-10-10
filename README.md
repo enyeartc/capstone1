@@ -27,33 +27,32 @@ If you notice there might not be any data for the exact day 4 years out due to w
 
 Below displays missing data. Notice data at the end for 4 years that would need to removed.
 ![image info](images/msnoAllRows.png)
-As this was collapsed there are numerious 0 and NaN values. The total Options 209 out of 270.
+As this was collapsed there are numerious 0 and NaN values before moving average started and then at the end.  The missing data in the middle was taken care of by collapsing the data to weekly.
+
+![image info](images/msnoSubset.png)
+
+The total rows was 270 weeks of data to analize.  Of this data the choice of Options was 209 out of the 270 which is 77%.  This makes it more difficult to improve over just picking Options.
+
 ![image info](images/S1pairplot3.png)
 ![image info](images/S1_ma_2toFuture.png)
+![image info](images/ma_2.png)
+![image info](images/pricess.png)
 
-### Initial Data
-
-![image info](images/S1ma_2.png)
-![image info](images/S1pairplot3.png)
 ![image info](images/S1plotROC.png)
-![image info](images/S2_data1.png)
-![image info](images/S2_data2.png)
+![image info](images/plotROC_Save.png)
+![image info](images/plotROCS2.png)
 
 
 ![image info](images/ss2.png)
-### Added quit a few calculaitons
-![image info](images/ss1.png)
 
-![image info](images/ma_2.png)
-![image info](images/pricess.png)
-![image info](images/plotROC_Save.png)
-![image info](images/plotROCS2.png)
+
+
+
 
 
 ### Scrubbed Data collapsed to weekly
 
 
-![image info](images/msnoSubset.png)
 
 ### Scrubbed Data with future values
 If you notice there might not be any data for the exact day 4 years out, so what we really want is the mean price for the week 4 years in advance compared to the mean price/volume/high/low 
