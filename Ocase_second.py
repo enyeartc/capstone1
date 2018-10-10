@@ -267,7 +267,7 @@ def get_clean_data(file_name):
     df1 = df1[df1['future_mean_close']>0 ]
     df1 = df1[df1['ma_2']>0 ]
     df1['fv_options'] = (df1['future_mean_close']-df1['mean_close'])*1000
-    df1['fv_rsu'] = df1['mean_close']*250
+    df1['fv_rsu'] = df1['future_mean_close']*250
     df1['diff'] = df1['fv_options']- df1['fv_rsu']
     df1['ma2_mean'] = df1['ma_2']- df1['mean_close']
     df1['ma1_mean'] = df1['ma_1']- df1['mean_close']
@@ -287,7 +287,12 @@ def plotData(df):
     # print(df2.head())
     pd.plotting.scatter_matrix(df,figsize=(10, 8))
     plt.savefig("images/scatter_matrix.png")
+    df3=df[['mean_close','future_mean_close','ma_2','diff','ma2_mean']]
+    pd.plotting.scatter_matrix(df3,figsize=(10, 8))
 
+    plt.savefig("images/scatter_matrix_only_means3.png")
+    sns.pairplot(df3)
+    plt.savefig('images/pairplot3.png')
 
 
     #temp.to_csv('nulls.csv', sep='\t', encoding='utf-8')
