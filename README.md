@@ -21,7 +21,7 @@ Initially data looks like the following, this data doesn't help for future predi
 ![image info](images/S2_data1.png)
 
 ### Scrubbed Data with future values
-If you notice there might not be any data for the exact day 4 years out due to weekends and holidays.  To model this data it needs to manipulated and colapsed.   There is a monthly moving average and a 4 month moving aferage, and now only one record for each week and the stock price is a mean for the seek.  In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.
+If you notice there might not be any data for the exact day 4 years out due to weekends and holidays.  To model this data it needs to manipulated and colapsed.  Need to find the Monday of the week and get the mean for next 7 days etc.   There is a monthly moving average and a 4 month moving aferage, and now only one record for each week and the stock price is a mean for the seek.  In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.
 
 ![image info](images/S2_data2.png)
 
