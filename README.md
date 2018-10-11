@@ -49,11 +49,14 @@ You can see below with a OLS (Ordinary Least Squares) line that there is a relat
 ![image info](images/S1_ma_2toFuture.png)
 
 ## Modeling
-I ended up using a logistic regression using the Weekly Mean and the Moving Average for 4 weeks.  So the Options is the y or target and the X values being Mean and Moving Average.  
+I uses a logistic regression model using the Weekly Mean and the Moving Average for 16 weeks.  So the Options is the y or target and the X values being Mean and Moving Average.  
 Options  Mean_Close MovingAverage
 1        39.1420    36.451875
+
 1        38.3060    36.725625
+
 1        38.2960    36.952000
+
 0        38.8940    37.205250
 0        40.7760    37.561719
 0        39.8720    37.859344
