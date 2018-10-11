@@ -75,7 +75,7 @@ Precision = TP/TP+FP
 Recall = TP/TP+FN
 F1 Score = 2*(Recall * Precision) / (Recall + Precision)
 
-For my testset I received the following 
+⋅⋅* For my testset I received the following 
 
 Test accuracy_score   0.7444444444444445
 
@@ -87,6 +87,8 @@ Test f1_score         0.7472527472527473
 
 
 This seems pretty good until I ran a test where my model only returned Options
+
+⋅⋅* Only return 1's
 
 All1 accuracy_score 0.6166666666666667
 
@@ -103,6 +105,11 @@ To understand this a bit, the difficult part was really the data where data over
 
 [1 1 0 0 1 0 0 0 0 0 1 0 1 1 1 0 0 1 0 1 1 1 1
 
+## Summary
+Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.   The model I created did create a higher percision and accuracy score but a worse F1 score.  This model I would not consider successful due to the model with no intelligence having similar and in one case a better score.  
+
+## Future
+It
 
 
 
