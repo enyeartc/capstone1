@@ -33,8 +33,9 @@ Initially data looks like the following, this data doesn't help for future predi
 | low           |	Low price for the day
 
 Most of these values are not important 4 years in the future.  This needs to be transformed into meaningful data for the future, the following would be more useful.
-| field              | description          
-| ------------------ | ------------- 
+
+| field              | description                               |        
+| ------------------ | ------------------------------------------ 
 | Week               | Sum data per week not daily   
 | mean_close         | Average price for the week 
 | mean_volume        | Average volume for the week
