@@ -221,7 +221,7 @@ def find_best_threshold(model_profits):
             max_profit = profits[max_index]
     return max_model, max_threshold, max_profit
 def plotROC(y_true, y_prob_H, filelocation = 'images/plotROC.png',title = 'ROC curve'):
-    print("in plotRoc",filelocation,title)
+    #print("in plotRoc",filelocation,title)
     # print(y_true)
     # print(y_prob_H)
     # print('Length', len(y_prob_H))
