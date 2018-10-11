@@ -68,10 +68,12 @@ Using this the following ROC (Receiver operating characteristic) is created.
 
 I ran multiple passes using different thresholds and I ended up using a threshold of 0.45177236. I was using the F1 value of my model to find the best threshold.  To refresh your memory the following could have been used. I chose the F1 since it is a good mix of the other columns. 
 
-Accuracy = TP+TN/TP+FP+FN+TN
-Precision = TP/TP+FP
-Recall = TP/TP+FN
-F1 Score = 2*(Recall * Precision) / (Recall + Precision)
+| Test                 | Formula         
+| -------------------- | ------------- 
+| Accuracy             | TP+TN/TP+FP+FN+TN
+| Precision            | TP/TP+FP
+| Recall               | TP/TP+FN
+| F1 Score             | 2*(Recall * Precision) / (Recall + Precision)
 
 ⋅⋅* For my testset I received the following 
 
