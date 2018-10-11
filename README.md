@@ -87,32 +87,10 @@ All1 precision_score 0.6166666666666667
 All1 recall_score 1.0
 All1 f1_score 0.7628865979381444
 
-
-![image info](images/plotROC_Save.png)
-![image info](images/plotROCS2.png)
-
-
-![image info](images/ss2.png)
+To understand this a bit, the difficult part was really the data where data overlaps.   
+[1 1 1 1 1 0 0 0 0 1 1 0 1 1 1 1 0 
+[1 1 0 0 1 0 0 0 0 0 1 0 1 1 1 0 0 
 
 
-
-
-
-
-### Scrubbed Data collapsed to weekly
-
-
-
-### Scrubbed Data with future values
-If you notice there might not be any data for the exact day 4 years out, so what we really want is the mean price for the week 4 years in advance compared to the mean price/volume/high/low 
-
-### Eventually predict with this data
-![image info](images/ss4.png)
-![image info](images/ss3.png)
-
-### Eventually predict with this data
-
-
-![image info](images/confusion.png)
 
 
