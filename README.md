@@ -74,6 +74,7 @@ Recall = TP/TP+FN
 F1 Score = 2*(Recall * Precision) / (Recall + Precision)
 
 ⋅⋅* For my testset I received the following 
+
 | Test                 | Score         
 | -------------------- | ------------- 
 |Test accuracy_score   |	0.74444444444444450       
@@ -88,6 +89,7 @@ This seems pretty good until I ran a test where my model only returned Options
 
 ⋅⋅* Only return 1's
 ⋅⋅* For my testset I received the following 
+
 | Test                 | Score         
 | -------------------- | ------------- 
 | All1 accuracy_score  | 0.6166666666666667
