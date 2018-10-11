@@ -13,7 +13,7 @@ The question really comes down to should an employee choose Restricted Stock Uni
 To accurately create a model that will predict if an employee should choose Options or RSU's.
 
 ## Strategy 
-Although there are three choices, this project will only see if an employee should choose options or not.  In order to do this I will plot a regression model, find a threshold value that will maximize the F1 value (discussed below) and this will attempt to predict if an employee should pick options or not.
+This project will only see if an employee should choose options or not.  In order to do this I will create a Logistic Regression model, find a threshold value that will maximize the F1 value (discussed below) and this will attempt to predict if an employee should pick options or not.
 
 ## Data   
 Initially data looks like the following, this data doesn't help for future predictions at a row by row level. A 0 or 1 is needed to indicate if they should pick options.  To get this value the future values will be calculated. 
