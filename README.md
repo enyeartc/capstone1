@@ -51,34 +51,14 @@ You can see below with a OLS (Ordinary Least Squares) line that there is a relat
 ## Modeling
 I used a logistic regression model using the Weekly Mean and the Moving Average for 16 weeks.  So the Options column is the y or target and the X values being Mean and Moving Average.  The other two columns are displayed for reference.
 
-| mean_close    | ma_2          | Options  |
-| ------------- | ------------- | -------- |
-| 33.78	        | 31.95         | 1        |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| mean_close    | ma_2          | Options  | not in model  | future_mean_close | diff     
+| ------------- | ------------- | -------- | ------------- | ----------------- | -------- 
+|33.59	        |	34.03         |	1	       |               |	45.224           |	328
+|34.16	        | 34.00         |	0        |               |	45.362           |	-145.5
+|34.48	        |	33.98         |	0	       |               |	44.664           |	-982
+|33.96	        |	33.87         |	1	       |               |	45.565           |	206.75
 
 
-| In Model      |               |               | Not in Model      |             |
-|               |               |               |  since future     |             |
-| mean_close    | ma_2          | Options       | future_mean_close	| diff        |
-| ------------- | ------------- | ------------- |:-----------------:| ----------- |
-| 33.78	        | 31.95         | 1             | 43.0375           |  812.5      |
-| 33.773        | 32.23         | 1             | 43.148	          |  931.75     |
-| 34.04         | 32.23         | 1             | 43.252            |  702        |
-
-In Model                                  Not in Model since it is in future
-
-mean_close  ma_2	      Options		        future_mean_close	  diff
-
-33.78	      31.95415938	1		              43.0375	            812.5
-
-33.773	    32.23725313	1		              43.148	            931.75
-
-34.04	      32.23040938	1		              43.252	            702
-
-35.26	      32.6754875	0		              43.352	            -723
-
-35.46	      32.9252375	0		              44.166	            -159
 
 With this model I was trying to get the very narrow line between some of the Options and RSU.  This proved very difficult
 ![image info](images/OptionOrNot.png)
