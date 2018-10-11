@@ -51,6 +51,14 @@ You can see below with a OLS (Ordinary Least Squares) line that there is a relat
 ## Modeling
 I used a logistic regression model using the Weekly Mean and the Moving Average for 16 weeks.  So the Options column is the y or target and the X values being Mean and Moving Average.  The other two columns are displayed for reference.
 
+| In Model      |               |               | Not in Model      |             |
+|               |               |               |  since future     |             |
+| mean_close    | ma_2          | Options       | future_mean_close	| diff        |
+| ------------- | ------------- | ------------- |:-----------------:| ----------- |
+| 33.78	        | 31.95         | 1             | 43.0375           |  812.5      |
+| 33.773        | 32.23         | 1             | 43.148	          |  931.75     |
+| 34.04         | 32.23         | 1             | 43.252            |  702        |
+
 In Model                                  Not in Model since it is in future
 
 mean_close  ma_2	      Options		        future_mean_close	  diff
@@ -59,7 +67,7 @@ mean_close  ma_2	      Options		        future_mean_close	  diff
 
 33.773	    32.23725313	1		              43.148	            931.75
 
-34.04	      32.45040938	1		              43.252	            702
+34.04	      32.23040938	1		              43.252	            702
 
 35.26	      32.6754875	0		              43.352	            -723
 
