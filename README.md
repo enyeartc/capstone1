@@ -51,11 +51,11 @@ You can see below with a OLS (Ordinary Least Squares) line that there is a relat
 ## Modeling
 I used a logistic regression model using the Weekly Mean and the Moving Average for 16 weeks.  So the Options column is the y or target and the X values being Mean and Moving Average.  The other two columns are displayed for reference.
 
-In Model |  |  | Not in model |  | 
- |  |  |  |  |
-  |  |  |  |  |
-mean_close | ma_2  | Options | future_mean_close | diff 
---- | ---  | --- | --- | --- 
+| mean_close    | ma_2          | Options  |
+| ------------- | ------------- | -------- |
+| 33.78	        | 31.95         | 1        |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
 
 
 | In Model      |               |               | Not in Model      |             |
