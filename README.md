@@ -49,41 +49,43 @@ You can see below with a OLS (Ordinary Least Squares) line that there is a relat
 ![image info](images/S1_ma_2toFuture.png)
 
 ## Modeling
-I uses a logistic regression model using the Weekly Mean and the Moving Average for 16 weeks.  So the Options is the y or target and the X values being Mean and Moving Average.  
-Options  Mean_Close MovingAverage
-1        39.1420    36.451875
+I used a logistic regression model using the Weekly Mean and the Moving Average for 16 weeks.  So the Options column is the y or target and the X values being Mean and Moving Average.  The other two columns are displayed for reference.
+In Model                                  Not in Model since it is in future
+mean_close  ma_2	      Options		        future_mean_close	  diff
+33.78	      31.95415938	1		              43.0375	            812.5
 
-1        38.3060    36.725625
+33.773	    32.23725313	1		              43.148	            931.75
 
-1        38.2960    36.952000
+34.04	      32.45040938	1		              43.252	            702
 
-0        38.8940    37.205250
-0        40.7760    37.561719
-0        39.8720    37.859344
+35.26	      32.6754875	0		              43.352	            -723
 
-I was trying to get the very narrow line between some of the Options and RSU.  This proved very difficult
+35.46	      32.9252375	0		              44.166	            -159
+
+With this model I was trying to get the very narrow line between some of the Options and RSU.  This proved very difficult
 ![image info](images/OptionOrNot.png)
 
 Using this the following ROC (Receiver operating characteristic) is created.
 ![image info](images/plotROC_Training.png)
 
-I ran multiple passes using different thresholds and I ended up using a threshold of 0.6443742. I was using the F1 value of my model to 
+I ran multiple passes using different thresholds and I ended up using a threshold of 0.45177236. I was using the F1 value of my model to find the best threshold.  To refresh your memory the following could have been used. I chose the F1 since it is a good mix of the other columns. 
+
 Accuracy = TP+TN/TP+FP+FN+TN
 Precision = TP/TP+FP
 Recall = TP/TP+FN
 F1 Score = 2*(Recall * Precision) / (Recall + Precision)
 
-**************** ROC Curve Test 1.9425746049638208
-Test accuracy_score 0.8444444444444444
-Test precision_score 0.9
-Test recall_score 0.9
-Test f1_score 0.9
+For my testset I received the following 
+Test accuracy_score   0.7444444444444445
+Test precision_score  0.9444444444444444
+Test recall_score     0.6181818181818182
+Test f1_score         0.7472527472527473
 
-**************** Return All 1's
-accuracy_score 0.7777777777777778
-precision_score 0.7777777777777778
-recall_score 1.0
-f1_score 0.8750000000000001
+This seems pretty good until I ran a test where my model only returned Options
+All1 accuracy_score 0.6166666666666667
+All1 precision_score 0.6166666666666667
+All1 recall_score 1.0
+All1 f1_score 0.7628865979381444
 
 
 ![image info](images/plotROC_Save.png)
