@@ -87,9 +87,10 @@ All1 precision_score 0.6166666666666667
 All1 recall_score 1.0
 All1 f1_score 0.7628865979381444
 
-To understand this a bit, the difficult part was really the data where data overlaps.   
-[1 1 1 1 1 0 0 0 0 1 1 0 1 1 1 1 0 
-[1 1 0 0 1 0 0 0 0 0 1 0 1 1 1 0 0 
+To understand this a bit, the difficult part was really the data where data overlaps. To see this with the actual and predicted values you can see that there are quite a few 
+[1 1 1 1 1 0 0 0 0 1 1 0 1 1 1 1 0 0 1 1 1 1 0
+
+[1 1 0 0 1 0 0 0 0 0 1 0 1 1 1 0 0 1 0 1 1 1 1
 
 
 
