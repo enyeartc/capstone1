@@ -76,17 +76,23 @@ I ran multiple passes using different thresholds and I ended up using a threshol
 | Recall               | TP/TP+FN
 | F1 Score             | 2*(Recall * Precision) / (Recall + Precision)
 
-⋅⋅* For my testset I received the following 
+⋅⋅* For my Training  I received the following 
 
 | Test                 | Score         
 | -------------------- | ------------- 
-|Test accuracy_score   |	0.74444444444444450       
-|Test precision_score  |  0.9444444444444444        
-|Test recall_score 	   |	0.6181818181818182       
-|Test f1_score         |	0.7472527472527473       
+|Test accuracy_score   |	0.7168640068640069       
+|Test precision_score  |  0.7808739569609134        
+|Test recall_score 	   |	0.7656126482213439     
+|Test f1_score         |	0.7702914862914862       
 
+⋅⋅* For my Final Tests
 
-
+| Test                 | Score         
+| -------------------- | ------------- 
+|Test accuracy_score   |	0.7111111111111111      
+|Test precision_score  |  0.7636363636363637        
+|Test recall_score 	   |	0.7636363636363637     
+|Test f1_score         |	0.7636363636363637  
 
 This seems pretty good until I ran a test where my model only returned Options
 
@@ -99,13 +105,6 @@ This seems pretty good until I ran a test where my model only returned Options
 | All1 precision_score | 0.6166666666666667
 | All1 recall_score    | 1.0
 | All1 f1_score        | 0.7628865979381444
-
-
-To understand this a bit, the difficult part was really the data where data overlaps. To see this with the actual and predicted values you can see that there are quite a few 
-
-[1 1 1 1 1 0 0 0 0 1 1 0 1 1 1 1 0 0 1 1 1 1 0
-
-[1 1 0 0 1 0 0 0 0 0 1 0 1 1 1 0 0 1 0 1 1 1 1
 
 ## Summary
 Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.   The model I created did create a higher percision and accuracy score but a worse F1 score.  This model I would not consider successful due to the model with no intelligence having similar and in one case a better score.  The parts of the model where
