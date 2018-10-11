@@ -74,27 +74,26 @@ Recall = TP/TP+FN
 F1 Score = 2*(Recall * Precision) / (Recall + Precision)
 
 ⋅⋅* For my testset I received the following 
+| Test                 | Score         
+| -------------------- | ------------- 
+|Test accuracy_score   |	0.74444444444444450       
+|Test precision_score  |  0.9444444444444444        
+|Test recall_score 	   |	0.6181818181818182       
+|Test f1_score         |	0.7472527472527473       
 
-Test accuracy_score   0.7444444444444445
 
-Test precision_score  0.9444444444444444
-
-Test recall_score     0.6181818181818182
-
-Test f1_score         0.7472527472527473
 
 
 This seems pretty good until I ran a test where my model only returned Options
 
 ⋅⋅* Only return 1's
-
-All1 accuracy_score 0.6166666666666667
-
-All1 precision_score 0.6166666666666667
-
-All1 recall_score 1.0
-
-All1 f1_score 0.7628865979381444
+⋅⋅* For my testset I received the following 
+| Test                 | Score         
+| -------------------- | ------------- 
+| All1 accuracy_score  | 0.6166666666666667
+| All1 precision_score | 0.6166666666666667
+| All1 recall_score    | 1.0
+| All1 f1_score        | 0.7628865979381444
 
 
 To understand this a bit, the difficult part was really the data where data overlaps. To see this with the actual and predicted values you can see that there are quite a few 
