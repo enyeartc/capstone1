@@ -58,10 +58,11 @@ I used a logistic regression model using the Weekly Mean and the Moving Average 
 |34.48	        |	33.98         |	0	       |             |                  |	44.664           |	-982
 |33.96	        |	33.87         |	1	       |             |                  |	45.565           |	206.75
 
-
+![image info](images/summary.png)
 
 With this model I was trying to get the very narrow line between some of the Options and RSU.  This proved very difficult
 ![image info](images/OptionOrNot.png)
+
 
 Using this the following ROC (Receiver operating characteristic) is created.
 ![image info](images/plotROC_Training.png)
@@ -107,7 +108,7 @@ To understand this a bit, the difficult part was really the data where data over
 [1 1 0 0 1 0 0 0 0 0 1 0 1 1 1 0 0 1 0 1 1 1 1
 
 ## Summary
-Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.   The model I created did create a higher percision and accuracy score but a worse F1 score.  This model I would not consider successful due to the model with no intelligence having similar and in one case a better score.  
+Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.   The model I created did create a higher percision and accuracy score but a worse F1 score.  This model I would not consider successful due to the model with no intelligence having similar and in one case a better score.  The parts of the model where
 
 ## Future
 It
