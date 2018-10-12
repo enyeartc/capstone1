@@ -103,7 +103,7 @@ Using this the following ROC (Receiver operating characteristic) is created.
 
 I ran multiple passes using different thresholds and I ended up using a threshold of 0.451. I was using the F1 value of my model to find the best threshold.  To refresh your memory the following could have been used. I chose the F1 since it is a good mix of the other columns. 
 
-After gitting a threshold, I ran a 10 fold Kfold test to see if my test data would perform, I was watching the F1 score which is detailed below. 
+After getting a threshold, I ran a 10 fold Kfold test to see if my test data would perform, I was watching the F1 score which is detailed below. 
 
 | Test                 | Formula         
 | -------------------- | ------------- 
