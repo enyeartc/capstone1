@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from pandas.plotting import scatter_matrix
 from sklearn import metrics
-from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.model_selection import train_test_split, KFold, StratifiedKFold
 from sklearn.linear_model import LogisticRegression as LR
 from sklearn.preprocessing import StandardScaler
@@ -19,14 +18,12 @@ from statsmodels.tools import add_constant
 daysinfuture = 365*4
 thresholdVal = 0.45177236
 
-
-
 def make_clean_Options_df(df):
     ''' This funciton will define the X values
         it started out with many differnt values at the end of the day
         it ended up with just the mean
     '''
-    df = df[['Options','mean_close']]
+    df = df[['Options','ma2_mean']]
 
     return (df)
 
@@ -138,6 +135,20 @@ def runFinalTests(X_train, X_test, y_train, y_test, thresh = thresholdVal):
 
 def plot_options(df, model,t):
     #df = pd.read_csv(filepath)
+
+    Options_df = make_clean_Options_df(df)
+    y = Options_df.pop('Options').values
+    X = Options_df.values
+    model.fit(X, y)
+    y_proba = model.predict_proba(X)[:,1]
+    y_predict = np.array([(lambda z: 1 if z >t else 0)(z) for z in y_proba])
+    df['modelOptions'] = y_predict
+
+    X_modelOptions = df[df['modelOptions']==1 ]
+    y_modelOptions = df[df['modelOptions']==1 ]
+    X_modelRSU = df[df['modelOptions']==0 ]
+    y_modelRSU = df[df['modelOptions']==0 ]
+
     X_options = df[df['Options']==1 ]
     y_options = df[df['Options']==1 ]
 
@@ -148,12 +159,15 @@ def plot_options(df, model,t):
     ax = fig.add_subplot(111)
     ax.scatter(X_rsu['mean_close'], X_rsu['future_mean_close'], color='b', label='RSU')
     ax.scatter(X_options['mean_close'], X_options['future_mean_close'], color='r', label='Options')
+    ax.scatter(X_modelOptions['mean_close'], X_modelOptions['future_mean_close'],color='black',s=80, facecolors='none', edgecolors='black', label='Model Options')
+    ax.scatter(X_modelRSU['mean_close'], X_modelRSU['future_mean_close'],marker = "x",color='black',s=80, label='Model RSU')
+
     x_ = np.linspace(X_options['mean_close'].min(), X_options['mean_close'].max(), 100)
     ax.legend(shadow=True)
     ax.set_xlabel('mean_close')
     ax.set_ylabel('future_mean_close')
     ax.set_title('Options or RSU?')
-    plt.savefig('images/OptionOrNot2.png')
+    plt.savefig('images/OptionOrNot4.png')
 def find_threshold(X_train, X_test):
 
     kfold = StratifiedKFold(3,shuffle=False)
@@ -199,7 +213,7 @@ def checkmodel(X_train,y_train):
 if __name__ == '__main__':
     np.random.seed(42)
     #threshold = thresholdVal
-    # This does not need to be processed every time if the 
+    # This does not need to be processed every time if the
     # Data has not changed
     #df = get_clean_data('data/OracleQuotes.csv',1)
     df = get_clean_data()
