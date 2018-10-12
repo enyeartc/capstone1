@@ -122,6 +122,7 @@ After gitting a threshold, I ran a 10 fold Kfold test to see if my test data wou
 |Test f1_score         |	0.7702914862914862       
 
 ⋅⋅* For my Final hold out data I received the following results
+
 | Test                 | Score         
 | -------------------- | ------------- 
 |Test accuracy_score   |	0.7111111111111111      
