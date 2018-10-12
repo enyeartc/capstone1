@@ -20,7 +20,9 @@ To accurately create a model that will predict if an employee should choose Opti
 This project will only see if an employee should choose options or not.  In order to do this I will create a Logistic Regression model, find a threshold value that will maximize the F1 value (discussed below) and this will attempt to predict if an employee should pick options or not.  In addition  numerous data points will be created in order to try and solve this problem.
 
 ## Data   
-Initially data looks like the following, this data doesn't help for future predictions at a row by row level. A 0 or 1 is needed to indicate if they should pick options.  To get this value the future values will be calculated. 
+Initially data looks like the following, this data doesn't help for future predictions at a row by row level. A 0 or 1 is needed to indicate if they should pick options.  To get this value the future values will be calculated.  Downloaded from:
+https://finance.yahoo.com/quote/ORCL/history/
+
 ### Initial Data
 ![image info](images/S2_data1.png)
 
