@@ -17,7 +17,7 @@ The question really comes down to should an employee choose Restricted Stock Uni
 To accurately create a model that will predict if an employee should choose Options or RSU's.
 
 ## Strategy 
-This project will only see if an employee should choose options or not.  In order to do this I will create a Logistic Regression model, find a threshold value that will maximize the F1 value (discussed below) and this will attempt to predict if an employee should pick options or not.  In additon numerous data points will be created in order to try and solve this problem.
+This project will only see if an employee should choose options or not.  In order to do this I will create a Logistic Regression model, find a threshold value that will maximize the F1 value (discussed below) and this will attempt to predict if an employee should pick options or not.  In addition  numerous data points will be created in order to try and solve this problem.
 
 ## Data   
 Initially data looks like the following, this data doesn't help for future predictions at a row by row level. A 0 or 1 is needed to indicate if they should pick options.  To get this value the future values will be calculated. 
@@ -52,7 +52,7 @@ Most of these values are not important 4 years in the future.  This needs to be 
 ### Scrubbed Data with future values
 There may not be any data for the exact day 4 years out due to weekends and holidays.  To model this data it needs to manipulated and collapsed.  The solution needs to find the Monday of the week and get the mean for next 7 days etc.   There is a monthly moving average and a 4 month moving average, and now only one record for each week and the stock price is a mean for the week.  
 
-In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.  For example if an employee picks 1000 options and the price is $30 when granted, and the price in 4 years is $35 then the differnce is $5 * 1000, for $5,000 total.   For the RSU's the price is simply $35 * 250 or $8750, in this case the value would be 0 for RSU's.  
+In addition the future value of the Options and RSU are calculated, if the Options value is higher then a 1 is in the 'Options' column.  For example if an employee picks 1000 options and the price is $30 when granted, and the price in 4 years is $35 then the difference  is $5 * 1000, for $5,000 total.   For the RSU's the price is simply $35 * 250 or $8750, in this case the value would be 0 for RSU's.  
 In the first line below the stock moved from 17.3 to 34.985  a difference of 17.685 or $17,685 but for RSU's it would be 34.985 * 250 or $8746.25, since th options are much greater this is a 1.  Also interesting was the moving average calculation, this involved calculating a 'rolling' average across the previous rows.
 ![image info](images/S2_data2.png)
 
@@ -60,13 +60,13 @@ This is visualized below
 
 ![image info](images/pricess.png)
 
-Visualized below are NaN values. Notice data at the end for 4 years that would need to removed since it takes 4 years to fully vest, the zebra pattern in middle column is becasue of weekends and holidays this will be removed when compressed to weekly mean prices.
+Visualized below are NaN values. Notice data at the end for 4 years that would need to removed since it takes 4 years to fully vest, the zebra pattern in middle column is because of weekends and holidays this will be removed when compressed to weekly mean prices.
 ![image info](images/msnoAllRows.png)
 After collapsing the data, data is clean and ready to model
 
 ![image info](images/msnoSubset.png)
 
-The total rows was 270 weeks of data to analize.  Of this data the choice of Options was 166 out of the 270 which is 61%.  If you look at row 2 you can see what this model will attempt to capture, we want to predict the Future mean based on the current mean and moving average.  These will be used in the model.
+The total rows was 270 weeks of data to analyze.  Of this data the choice of Options was 166 out of the 270 which is 61%.  If you look at row 2 you can see what this model will attempt to capture, we want to predict the Future mean based on the current mean and moving average.  These will be used in the model.
 
 1    166 Pick Options
 0    104 Pick RSU's
@@ -144,7 +144,7 @@ I ran an addtional test where I forced the model to always return a 1 for option
 | All1 f1_score        | 0.7628865979381444
 
 ## Summary
-Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.  In looking at the data there seems to be a correlation between the Past Mean Price and the Future Mean Price, as shown in images above, but the model will not work moving forward since the stock price will most likely continue to increase and the model will likely pridict RSU's.  Although the scores look like they have potential in reality the model does not have the information it needs to accurately predict the price.  A different model will more than likely need to be created to fully account for the time series insted of just adding it into the model.
+Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.  In looking at the data there seems to be a correlation between the Past Mean Price and the Future Mean Price, as shown in images above, but the model will not work moving forward since the stock price will most likely continue to increase and the model will likely predict  RSU's since it is not using a value like a moving average.  Although the scores look like they have potential in reality the model does not have the information it needs to accurately predict the price.  A different model will more than likely need to be created to fully account for the time series insted of just adding it into the model.
 
 
 ![image info](images/OptionOrNot3.png)
