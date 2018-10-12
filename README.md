@@ -116,10 +116,10 @@ After getting a threshold, I ran a 10 fold Kfold test to see if my test data wou
 
 |                      | Score         
 | -------------------- | ------------- 
-|Test accuracy_score   |	0.7168640068640069       
-|Test precision_score  |  0.7808739569609134        
-|Test recall_score 	   |	0.7656126482213439     
-|Test f1_score         |	0.7702914862914862       
+|Train accuracy_score  |	0.7168640068640069       
+|Train precision_score |  0.7808739569609134        
+|Train recall_score    |	0.7656126482213439     
+|Train f1_score        |	0.7702914862914862       
 
 ⋅⋅* For my Final hold out data I received the following results
 
