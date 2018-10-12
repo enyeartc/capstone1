@@ -143,13 +143,12 @@ I ran an addtional test where I forced the model to always return a 1 for option
 | All1 f1_score        | 0.7628865979381444
 
 ## Summary
-Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.  In looking at the data there seems to be a correlation between the Past Mean Price and the Future Mean Price, as shown in images above.  Although this is great for this presentation, it makes the assumption that the company's stock price will continue to rise steadily regardless of how the current price is situated with the moving average.  It could be the data that I have lines up a bit too well with just them weekly mean.  The model performs well, but this would need more investigation, as you can see in the plot below the model predicted RSU's once the mean got high enough.  A different model will more than likely need to be created to fully account for the time series insted of just adding it into the model.
+Trying to predict a model that depends on a date several years in the future in an area of constant change like the stock market is very difficult.  In looking at the data there seems to be a correlation between the Past Mean Price and the Future Mean Price, as shown in images above, but the model will not work moving forward since the stock price will most likely continue to increase and the model will likely pridict RSU's.  Although the scores look like they have potential in reality the model does not have the information it needs to accurately predict the price.  A different model will more than likely need to be created to fully account for the time series insted of just adding it into the model.
 
 
 ![image info](images/OptionOrNot3.png)
 
 ## Future
-Although this model performed better that just guessing always options, I feel that more testing is required on different stocks and different data ranges.  I need to map the results visually with the actual values to if they line up with predictions it seems that souly the mean price for a week cannot accurately predict a price in the future.  In other words, I want to validate that if my model is accurately predicting, and this perceived improvement over chance or hard coded options isn't because of some other factor. 
-
+I would like to take the same data and apply some different time series prediction models.  These models would need a more sophisticated weighted moving average and also work to eliminate trend and detect and account for seasonality.
 
 
